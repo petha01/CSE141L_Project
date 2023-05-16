@@ -1,4 +1,7 @@
-module CSE141L;
+module CSE141L(
+	input clock, start,
+	output done
+);
 
 
   LookupTable lookup_table_inst (
