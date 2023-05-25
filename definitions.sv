@@ -8,7 +8,7 @@ package definitions;
         MOV     = 3'b100,
         LD      = 3'b101,
         ST      = 3'b110,
-        BLQZ    = 3'b111,
+        BLQZ    = 3'b111
      } aluOp;
 
 endpackage

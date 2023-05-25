@@ -8,15 +8,23 @@ module alu(
 );
     logic [7:0] outVal;
     logic [2:0] temp;
-
+	 
     always_comb begin
         outVal = 0;
-        temp = 7 - input2;
         case(aluOp)
             ADD : outVal = input1 + input2;
             XOR : outVal = input1 ^ input2;
             AND : outVal = input1 & input2;
-            RSL : outVal = {input1[temp:0], input1[7:temp + 1]};
+            RSL : begin
+							outVal[0] = input1[(0 + 7 - input2) % 7];
+							outVal[1] = input1[(1 + 7 - input2) % 7];
+							outVal[2] = input1[(2 + 7 - input2) % 7];
+							outVal[3] = input1[(3 + 7 - input2) % 7];
+							outVal[4] = input1[(4 + 7 - input2) % 7];
+							outVal[5] = input1[(5 + 7 - input2) % 7];
+							outVal[6] = input1[(6 + 7 - input2) % 7];
+							outVal[7] = input1[(7 + 7 - input2) % 7];
+						end
             MOV : outVal = input2;
             LD  : outVal = input1;
             ST  : outVal = input1;
