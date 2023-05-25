@@ -3,7 +3,7 @@ module instructionmem #(parameter PC_BITS = 12)(
     output [2:0] instructions, reg1, reg2
 );
 
-    logic[8:0] core[2**D];
+    logic[8:0] core[2**PC_BITS];
     logic[8:0] ins;
     initial begin
         $readmemb("machinecode.txt",core);
