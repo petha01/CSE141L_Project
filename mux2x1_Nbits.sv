@@ -1,8 +1,8 @@
-module mux2x1 (
-    input logic A,
-    input logic B,
+module mux2x1_Nbits #(parameter N = 7) (
+    input logic [N-1:0] A,
+    input logic [N-1:0] B,
     input logic select,
-    output logic Y
+    output logic [N-1:0] Y
 );
     always_comb begin
         if (select == 1'b0)
