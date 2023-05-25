@@ -3,3 +3,4 @@
 !.gitignore
 !*.sv
 !*.jpg
+!*.py
