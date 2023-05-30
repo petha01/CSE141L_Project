@@ -32,7 +32,7 @@ module alu(
         endcase
 
         out <= outVal;
-        if ((aluOp == BLQZ) && (input1 <= input2)) begin
+        if ((aluOp == BLQZ) && (input1 <= 0)) begin
             jumpFlag = 1;
         end else begin
             jumpFlag = 0;
