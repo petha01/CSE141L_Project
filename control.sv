@@ -11,7 +11,7 @@ module control (
     always_ff @ (posedge clock) begin
         case (currentState)
             PC: begin
-                nextState <= REGISTERFILE;
+                nextState <= REGISTERREAD;
                 nextIns <= 1;
                 immediate <= 0;
                 regWrite <= 0;
@@ -19,29 +19,47 @@ module control (
                 memToReg <= 0;
             end
 
-            REGISTERFILE: begin
-                nextState <= ALU;
-                nextIns <= 0;
-                immediate <=;
-                regWrite <=;
-                memWrite <=;
-                memToReg <=;
-            end
-
-            ALU: begin
+            REGISTERREAD: begin
                 nextState <= DATAMEM;
                 nextIns <= 0;
-                immediate <= 0;
                 regWrite <= 0;
                 memWrite <= 0;
-                memToReg <=;
+                memToReg <= 0;
+                if ((instructions == RSL) ||
+                    (instructions == MOV) ||
+                    (instructions == BLQZ)) begin
+                        immediate <= 1;
+                    end else begin
+                        immediate <= 0;
+                    end
             end
 
             DATAMEM: begin
+                nextState <= REGISTERWRITE;
+                nextIns <= 0;
+                immediate <= 0;
+                regWrite <= 0;
+                memToReg <= 0;
+                if (instructions == ST) begin
+                    memWrite <= 1;
+                end else begin
+                    memWrite <= 0;
+                end
+            end
+
+            REGISTERWRITE: begin
                 nextState <= PC;
                 nextIns <= 0;
+                immediate <= 0;
+                memWrite <= 0;
+                memToReg <= 0;
+                // If statement is true for ADD, XOR, AND, RSL MOV
+                if (instructions <= MOV) begin
+                    regWrite <= 1;
+                    end else begin
+                        regWrite <= 0;
+                    end
             end
-            default: 
         endcase
 
         currentState <= nextState;

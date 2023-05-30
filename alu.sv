@@ -1,6 +1,5 @@
 import definitions::*;
 module alu(
-    input clock,
     input [2:0] aluOp,
     input [7:0] input1, input2,
     output jumpFlag,
@@ -31,9 +30,7 @@ module alu(
             BLQZ: outVal = 0;
             default: outVal = 0;
         endcase
-    end
 
-    always_ff @ (posedge clock) begin
         out <= outVal;
         if ((aluOp == BLQZ) && (input1 <= input2)) begin
             jumpFlag = 1;
