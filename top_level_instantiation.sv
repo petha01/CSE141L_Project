@@ -17,7 +17,7 @@ module top_level_instantiation(
                      .readRegister1(reg1), .readRegister2(reg2), .writeRegister(reg1),
                      .ltValue(ltVal), .writeData(aluResult), 
                      .readData1(data1), .readData2(data2));
-    alu ALU (.clock(clock), .aluOp(aluOp), .input1(data1), .input2(data2), 
+    alu ALU (.aluOp(aluOp), .input1(data1), .input2(data2), 
              .jumpFlag(jumpFlag), .out(aluResult));
     datamem DM (.clock(clock), .memWrite(memWrite), .addr(reg1), .data_in(aluResult), .data_out(memData));
 
