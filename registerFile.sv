@@ -1,6 +1,6 @@
 module registerFile(
     input clock, immediate, regWrite,
-    input [2:0] readRegister1, readRegister2, writeRegister,
+    input [2:0] readRegister1, readRegister2,
     input [7:0] ltValue, writeData,
     output [7:0] readData1, readData2
 );
