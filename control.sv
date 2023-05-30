@@ -28,10 +28,10 @@ module control (
                 if ((instructions == RSL) ||
                     (instructions == MOV) ||
                     (instructions == BLQZ)) begin
-                        immediate <= 1;
-                    end else begin
-                        immediate <= 0;
-                    end
+                    immediate <= 1;
+                end else begin
+                    immediate <= 0;
+                end
             end
 
             DATAMEM: begin
@@ -39,11 +39,17 @@ module control (
                 nextIns <= 0;
                 immediate <= 0;
                 regWrite <= 0;
-                memToReg <= 0;
+                
                 if (instructions == ST) begin
                     memWrite <= 1;
                 end else begin
                     memWrite <= 0;
+                end
+
+                if (instructions == LD) begin
+                    memToReg <= 1;
+                end else begin
+                    memToReg <= 0;
                 end
             end
 
@@ -56,9 +62,9 @@ module control (
                 // If statement is true for ADD, XOR, AND, RSL MOV
                 if (instructions <= MOV) begin
                     regWrite <= 1;
-                    end else begin
-                        regWrite <= 0;
-                    end
+                end else begin
+                    regWrite <= 0;
+                end
             end
         endcase
 
