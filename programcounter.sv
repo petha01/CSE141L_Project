@@ -1,5 +1,5 @@
 module programcounter (
-    input nextIns, jumpFlag, start, clock
+    input nextIns, jumpFlag, start, clock,
     input [11:0] pc_in, startingAddress,
     input [7:0] target,
     output [11:0] pc_out

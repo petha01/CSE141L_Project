@@ -15,7 +15,7 @@ package definitions;
         PC              = 2'b00,
         REGISTERREAD    = 2'b01,
         DATAMEM         = 2'b10,
-        REGISTERWRITE   = 2'b11;
+        REGISTERWRITE   = 2'b11
       } state;
 
 endpackage
