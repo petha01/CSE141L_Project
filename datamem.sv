@@ -7,7 +7,7 @@ module datamem(
     logic[7:0] core[256];
 
     initial begin
-        $readmemh("filename.list", core);
+        // $readmemh("filename.list", core);
     end
 
     assign data_out = core[addr];

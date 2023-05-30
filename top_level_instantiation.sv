@@ -12,7 +12,7 @@ module top_level_instantiation(
     logic [PC_BITS-1:0] pc;
 
     instructionmem #(PC_BITS) IM (.pc(pc), .instructions(aluOp), .reg1(reg1), .reg2(reg2));
-    fetch_unit FU (.clock(clock), .reset(reset), .jumpFlag(jumpFlag), .pc(pc));
+    programcounter PC (.clock(clock), .reset(reset), .jumpFlag(jumpFlag), .pc(pc));
     registerFile RF (.clock(clock), .immediate(immediate), .regWrite(regWrite),
                      .readRegister1(reg1), .readRegister2(reg2), .writeRegister(reg1),
                      .ltValue(ltVal), .writeData(aluResult), 
@@ -21,6 +21,6 @@ module top_level_instantiation(
              .jumpFlag(jumpFlag), .out(aluResult));
     datamem DM (.clock(clock), .memWrite(memWrite), .addr(reg1), .data_in(aluResult), .data_out(memData));
 
-    control_decoder CD (.clock(clock), .reset(reset), .instructions(aluOp), .jumpFlag(jumpFlag), .memWrite(memWrite), .regWrite(regWrite), .immediate(immediate), .ltVal(ltVal));
+    control CONTROL (.clock(clock), .reset(reset), .instructions(aluOp), .jumpFlag(jumpFlag), .memWrite(memWrite), .regWrite(regWrite), .immediate(immediate), .ltVal(ltVal));
 
 endmodule
