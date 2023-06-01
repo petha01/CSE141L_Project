@@ -25,7 +25,7 @@ module alu(
 				outVal[7] = input1[(7 + 7 - input2) % 7];
 			end
             MOV : outVal = input2;
-            LD  : outVal = input1;
+            LD  : outVal = input2;
             ST  : outVal = input1;
             BLQZ: outVal = 0;
             default: outVal = 0;
