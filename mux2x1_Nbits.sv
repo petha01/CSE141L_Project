@@ -1,4 +1,4 @@
-module mux2x1_Nbits #(parameter N = 7) (
+module mux2x1_Nbits #(parameter N = 8) (
     input logic [N-1:0] A,
     input logic [N-1:0] B,
     input logic select,
