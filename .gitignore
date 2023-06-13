@@ -4,3 +4,4 @@
 !*.sv
 !*.jpg
 !*.py
+!test_files/
