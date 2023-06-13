@@ -25,9 +25,7 @@ module control (
                 regWrite <= 0;
                 memWrite <= 0;
                 memToReg <= 0;
-                if ((instructions == RSL) ||
-                    (instructions == MOV) ||
-                    (instructions == BLQZ)) begin
+                if (instructions == MOV) begin
                     immediate <= 1;
                 end else begin
                     immediate <= 0;
