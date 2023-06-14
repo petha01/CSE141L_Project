@@ -11,13 +11,14 @@ module top_level_instantiation(
     wire nextIns, jumpFlag, immediate, regWrite, memWrite, memToReg;
     wire [PC_BITS - 1:0] pc;
     logic [PC_BITS - 1:0] startingAddress = 0;
+    logic [PC_BITS] doneAddress1 = 435;
     wire[7:0] aluOut, writeData, data1, data2, memOut;
     wire[2:0] instruction, reg1, reg2, lutOut, aluOp;
 
 
     // Module instances
     programcounter PC (.clock(clock), .start(start), .nextIns(nextIns), .jumpFlag(jumpFlag), .pc_in(pc),
-        .startingAddress(startingAddress), .target(aluOut), .pc_out(pc));
+        .startingAddress(startingAddress), .doneAddress(doneAddress1), .target(aluOut), .pc_out(pc), .done(done));
 
     instructionmem #(PC_BITS) IM (.pc(pc), .instructions(instruction), .reg1(reg1), .reg2(reg2));
 
