@@ -93,7 +93,7 @@ def translate(assembly_file, machine_file):
       try:
         if not branch:
           num = int(words[2])
-        keys_except_last_two = list(lookup_table.keys())[:-2]
+        keys_except_last_two = list(lookup_table.keys())[:-3]
         output.write(instructions['mov'] + registers['r4'] + lookup_table['0'] + "\n")
         print(instructions['mov'] + registers['r4'] + lookup_table['0'])
         total_lines += 1
@@ -118,6 +118,6 @@ def translate(assembly_file, machine_file):
   # Close the file
   input.close()
   output.close()
-translate('test_files/program2.txt', 'test_files/program2_out.txt')
+translate('test_files/program1.txt', 'test_files/program1_out.txt')
 
   
