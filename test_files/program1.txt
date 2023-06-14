@@ -1,0 +1,327 @@
+
+// mem[1] = 0 0 0 0 0 b11 b10 b09
+// mem[0] = b8 b7 b6 b5 b4 b3 b2 b1
+
+// mem[31] = b11 b10 b9 b8 b7 b6 b5 p8
+// mem[30] = b4 b3 b2 p4 b1 p2 p1 p0
+
+
+
+// NOTES:
+// r0: index of LSW
+// r1: loaded LSW
+// r2: saved variable for p0
+// r3: temp parity bit as we xor
+// r4: X
+// r5: X
+// r6: kept as final encoded msg holder
+// r7: random variable
+
+mov r0, 0
+
+loop:
+
+mov r3, 0
+mov r6, 0
+
+// start calculation of MSW encoded
+ld r1, r0     //r1 = mem[0] = b8 b7 b6 b5 b4 b3 b2 b1
+rsl r1, 5     // rotate shift mem[0] to the left 5 bits
+
+mov r7, 30    // r7 = 0 0 0 1 1 1 1 0
+and r1, r7    // r1 = 0 0 0 b8 b7 b6 b5 0
+add r6, r1
+
+mov r7, 1     // mem[i] -> mem[i+1]
+add r0, r7
+
+ld r1, r0     // r1 = mem[1] = 0 0 0 0 0 b11 b10 b9
+rsl r1, 5     // rotate shift mem[1] to the left 5 bits
+add r6, r1    // r6 =  b11 b10 b9 b8 b7 b6 b5 0
+
+// calculate p8
+ld r1, r0     // load mem[1] again
+rsl r1, 6
+mov r7, 1
+and r1, r7
+add r3, r1    // r3 = 0 0 0 0 0 0 0 b11
+
+ld r1, r0
+rsl r1, 7
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b10
+xor r3, r1    // r3 = xor(b11:10)
+
+ld r1, r0
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b9
+xor r3, r1    // r3 = xor(b11:9)
+
+mov r7, -1    // load mem[0] again
+add r0, r7    
+mov r7, 1
+
+ld r1, r0
+rsl r1, 1
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b8
+xor r3, r1    // r3 = xor(b11:8)
+
+ld r1, r0
+rsl r1, 2
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b7
+xor r3, r1    // r3 = xor(b11:7)
+
+ld r1, r0
+rsl r1, 3
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b6
+xor r3, r1    // r3 = xor(b11:6)
+
+ld r1, r0
+rsl r1, 4
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b5
+xor r3, r1    // r3 = xor(b11:5) = p8
+
+mov r2, 0
+add r2, r3    // store p8 in r2 for calculation of p0
+
+add r6, r3    // r6 =  b11 b10 b9 b8 b7 b6 b5 p8
+
+mov r7, 31
+add r7, r0    // r7 = the index to store encoded version of MSW
+st r6, r7     // store encoded MSW to mem[31]
+
+// start calculation of LSW encoded
+mov r6, 0
+
+ld r1, r0     // get b4:b2 in position
+mov r7, 14    // r7 = 0 0 0 1 1 1 0
+and r1, r7    // r1 = 0 0 0 0 b4 b3 b2 0
+rsl r1, 4
+add r6, r1    // r6 = b4 b3 b2 0 0 0 0
+
+ld r1, r0     // get b1 in position
+mov r7, 1     // r7 = 0 0 0 0 0 0 0 1
+and r1, r7    // r1 = 0 0 0 0 0 0 b1
+rsl r1, 3
+add r6, r1    // r6 = b4 b3 b2 0 b1 0 0 0
+
+// calculate p4
+mov r7, 1
+mov r3, 0
+
+add r0, r7
+ld r1, r0     // load mem[1] again
+rsl r1, 6
+and r1, r7
+add r3, r1    // r3 = 0 0 0 0 0 0 0 b11
+
+ld r1, r0
+rsl r1, 7
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b10
+xor r3, r1    // r3 = xor(b11:10)
+
+ld r1, r0
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b9
+xor r3, r1    // r3 = xor(b11:9)
+
+mov r7, -1    // load mem[0] again
+add r0, r7
+mov r7, 1
+
+ld r1, r0
+rsl r1, 1
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b8
+xor r3, r1    // r3 = xor(b11:b8)
+
+ld r1, r0    
+rsl r1, 5
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b4
+xor r3, r1    // r3 = xor(b11:b8, b4)
+
+ld r1, r0
+rsl r1, 6
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b3
+xor r3, r1    // r3 = xor(b11:b8, b4, b3)
+
+ld r1, r0
+rsl r1, 7
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b2
+xor r3, r1    // r3 = xor(b11:8, b4, b3, b2) = p4
+
+xor r2, r3    // xor(p8, p4) in r2 for calculation of p0
+
+rsl r3, 4
+add r6, r3    // r6 =  b4 b3 b2 p4 b1 0 0 0
+
+// calculate p2
+mov r7, 1
+mov r3, 0
+
+add r0, r7    // load mem[1] again
+ld r1, r0
+rsl r1, 6
+and r1, r7
+add r3, r1    // r3 = 0 0 0 0 0 0 0 b11
+
+ld r1, r0
+rsl r1, 1
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b10
+xor r3, r1    // r3 = xor(b11, b10)
+
+mov r7, -1
+add r0, r7    // load mem[0] again
+mov r7, 1
+
+ld r1, r0
+rsl r1, 2
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b7
+xor r3, r1    // r3 = xor(b11, b10, b7)
+
+ld r1, r0
+rsl r1, 3
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b6
+xor r3, r1    // r3 = xor(b11, b10, b7, b6)
+
+ld r1, r0
+rsl r1, 5
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b4
+xor r3, r1    // r3 = xor(b11, b10, b7, b6, b4)
+
+ld r1, r0
+rsl r1, 6
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b3
+xor r3, r1    // r3 = xor(b11, b10, b7, b6, b4, b3)
+
+ld r1, r0
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b1
+xor r3, r1    // r3 = xor(b11, b10, b7, b6, b4, b3, b1) = p2
+
+xor r2, r3    // xor(p8, p4, p2) in r2 for calculation of p0
+
+rsl r3, 2
+add r6, r3    // r6 =  b4 b3 b2 p4 b1 p2 0 0
+
+// calculate p1
+mov r7, 1
+mov r3, 0
+
+add r0, r7
+ld r1, r0     // load mem[1] again
+rsl r1, 6
+and r1, r7
+add r3, r1    // r3 = 0 0 0 0 0 0 0 b11
+
+ld r1, r0
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b9
+xor r3, r1    // r3 = xor(b11, b9)
+
+mov r7, -1
+add r0, r7    // load mem[0] again
+mov r7, 1
+
+ld r1, r0
+rsl r1, 2
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b7
+xor r3, r1    // r3 = xor(b11, b9, b7)
+
+ld r1, r0
+rsl r1, 4
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b5
+xor r3, r1    // r3 = xor(b11, b9, b7, b5)
+
+ld r1, r0
+rsl r1, 5
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b4
+xor r3, r1    // r3 = xor(b11, b9, b7, b5, b4)
+
+ld r1, r0
+rsl r1, 7
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b2
+xor r3, r1    // r3 = xor(b11, b9, b7, b5, b4, b2)
+
+ld r1, r0
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b1
+xor r3, r1    // r3 = xor(b11, b9, b7, b5, b4, b2, b1)
+
+xor r2, r3    // xor(p8, p4, p2, p1) in r2 for calculation of p0
+
+rsl r3, 1
+add r6, r3    // r6 =  b4 b3 b2 p4 b1 p2 p1 0
+
+// calculate p0
+mov r7, 1     // use to AND with the bit you want
+mov r3, 0
+
+add r0, r7
+ld r1, r0     // load mem[1] again
+rsl r1, 6
+mov r7, 1
+and r1, r7
+add r3, r1    // r3 = 0 0 0 0 0 0 0 b11
+
+ld r1, r0
+rsl r1, 7
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b10
+xor r3, r1    // r3 = xor(b11:10)
+
+ld r1, r0
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b9
+xor r3, r1    // r3 = xor(b11:9)
+
+mov r7, -1    
+add r0, r7    // load mem[0] again
+mov r7, 1
+
+ld r1, r0
+rsl r1, 1
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b8
+xor r3, r1    // r3 = xor(b11:8)
+
+ld r1, r0
+rsl r1, 2
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b7
+xor r3, r1    // r3 = xor(b11:7)
+
+ld r1, r0
+rsl r1, 3
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b6
+xor r3, r1    // r3 = xor(b11:6)
+
+ld r1, r0
+rsl r1, 4
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b5
+xor r3, r1    // r3 = xor(b11:5)
+
+ld r1, r0
+rsl r1, 5
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b4
+xor r3, r1    // r3 = xor(b11:4)
+
+ld r1, r0
+rsl r1, 6
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b3
+xor r3, r1    // r3 = xor(b11:3)
+
+ld r1, r0
+rsl r1, 7
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b2
+xor r3, r1    // r3 = xor(b11:2)
+
+ld r1, r0
+and r1, r7    // r1 = 0 0 0 0 0 0 0 b1
+xor r3, r1    // r3 = xor(b11:1)
+
+xor r3, r2    // r3 = xor(b11:1, p8, p4, p2, p1) = p0
+
+add r6, r3    // r6 =  b4 b3 b2 p4 b1 p2 p1 p0
+
+mov r7, 30
+add r7, r0    // r7 = the index to store encoded version of LSW
+st r6, r7     // store encoded MSW to mem[30]
+
+// increment index (mem[i+2]) for next loop
+mov r7, 2
+add r0, r7
+
+// if r0 == 0 : jump
+mov r7, -30
+add r7, r0
+blqz r7, loop

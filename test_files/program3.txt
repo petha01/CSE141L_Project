@@ -1,0 +1,34 @@
+mov r0, 0 // byte_counter
+mov r1, 32 // bit_counter
+mov r2, 0 // total_occurrences
+mov r3, 0 // byte_occurrences
+mov r4, 0 // continuous_occurrences
+ld r5, 32 // search_pattern
+mov R9, 0 // Branching register
+
+Loop:
+ld r6, [r0]
+BitLoop:
+rsl r6, r6, 1            // Shift byte left to bring current bit to MSB
+and r7, r6, 31           // Extract 5-bit pattern from MSB
+xor R8, r7, r5
+blqz R8, Match           // Check if pattern matches search pattern
+add r1, r1, 1
+blqz r1, IncrementByte   // Increment bit counter and check if it's time to increment byte counter
+blqz R9, R9, Loop
+
+IncrementByte:
+add r0, r0, 1
+mov r1, 32
+blqz R9, R9, Loop
+
+Match:
+add r2, r2, 1            // total_occurrences
+add r3, r3, 1            // byte_occurrences
+add r4, r4, 1            // continuous_occurrences
+blqz R9, R9, BitLoop
+
+// store
+st [33], r2
+st [34], r3
+st [35], r4

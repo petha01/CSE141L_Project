@@ -1,0 +1,13 @@
+// Hey there 
+//this is just a test to test on to see 
+// if assembly works
+
+loop:          // this is 13 lines above the blqz instruction.
+
+ld r1, r2
+add r0, r7
+rsl r0, 31
+
+st r3, r1
+
+blqz r1, loop
