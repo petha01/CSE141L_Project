@@ -32,6 +32,7 @@ lookup_table = {
   '0': '100',
   '-1': '101',
   '-30': '110',
+  
 }
 
 branches = {}
@@ -93,12 +94,12 @@ def translate(assembly_file, machine_file):
       try:
         if not branch:
           num = int(words[2])
-        keys_except_last_two = list(lookup_table.keys())[:-3]
+        keys_except_last_three = list(lookup_table.keys())[:-3]
         output.write(instructions['mov'] + registers['r4'] + lookup_table['0'] + "\n")
         print(instructions['mov'] + registers['r4'] + lookup_table['0'])
         total_lines += 1
 
-        for key in keys_except_last_two:
+        for key in keys_except_last_three:
           while num >= int(key):
             output.write(instructions['mov'] + registers['r5'] + lookup_table[key] + "\n")
             output.write(instructions['add'] + registers['r4'] + registers['r5'] + "\n")
@@ -107,9 +108,14 @@ def translate(assembly_file, machine_file):
             total_lines += 2
             num -= int(key)
         reg2 = registers['r4']
+        if words[0] == 'mov':
+            output.write(instructions['mov'] + reg1 + lookup_table['0'] + "\n")
+            print(instructions['mov'] + reg1 + lookup_table['0'])
+            output.write(instructions['add'] + reg1 + registers['r4'] + "\n")
+            print(instructions['add'] + reg1 + registers['r4'])
+            continue
       except:
         raise ValueError(f"Invalid register: {words[1]} in line {line}")
-    
     machine_line = opcode + reg1 + reg2
     output.write(machine_line + "\n")
     print(machine_line)
