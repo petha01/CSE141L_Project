@@ -11,11 +11,4 @@ package definitions;
         BLQZ    = 3'b111
      } aluOp;
 
-     typedef enum logic [1:0] { 
-        PC              = 2'b00,
-        REGISTERREAD    = 2'b01,
-        DATAMEM         = 2'b10,
-        REGISTERWRITE   = 2'b11
-      } state;
-
 endpackage

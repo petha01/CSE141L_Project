@@ -8,19 +8,18 @@ module top_level_instantiation(
     parameter PC_BITS = 10;
 
     // Wires and logics
-    logic nextIns, jumpFlag, immediate, regWrite, memWrite, memToReg;
+    logic  jumpFlag, immediate, regWrite, memWrite, memToReg;
     logic [PC_BITS - 1:0] pc;
-    logic [PC_BITS - 1:0] startingAddress = 0;
-    // logic [PC_BITS - 1:0] doneAddress1 = 9'b110110011;  // 435
-    logic [PC_BITS - 1:0] doneAddress1 = 9'b000000011;  // 3
+    logic [PC_BITS - 1:0] doneAddress1 = 9'b110110011;  // 435
+    // logic [PC_BITS - 1:0] doneAddress1 = 9'b000000011;  // 3
     // logic [PC_BITS - 1:0] doneAddress1 = 9'b000000011;
     logic[7:0] aluOut, writeData, data1, data2, memOut, lutOut;
     logic[2:0] instruction, reg1, reg2, aluOp;
 
 
     // Module instances
-    programcounter #(PC_BITS) PC (.clock(clock), .start(req), .nextIns(nextIns), .jumpFlag(jumpFlag), .pc_in(pc),
-        .startingAddress(startingAddress), .doneAddress(doneAddress1), .target(aluOut), .pc_out(pc), .done(ack));
+    programcounter #(PC_BITS) PC (.clock(clock), .start(req), .jumpFlag(jumpFlag), 
+         .target(aluOut), .pc(pc));
 
     instructionmem #(PC_BITS) IM (.pc(pc), .instructions(instruction), .reg1(reg1), .reg2(reg2));
 
@@ -29,14 +28,16 @@ module top_level_instantiation(
 
     LookupTable LT (.instruction(reg2), .out(lutOut));
 
-    control CONTROL (.clock(clock), .instructions(instruction), .aluOp(aluOp), .nextIns(nextIns),
-        .immediate(immediate), .regWrite(regWrite), .memWrite(memWrite), .memToReg(memToReg));
+    control CONTROL (.instructions(instruction), .aluOp(aluOp), .immediate(immediate),
+        .regWrite(regWrite), .memWrite(memWrite), .memToReg(memToReg));
 
     alu ALU (.aluOp(aluOp), .input1(data1), .input2(data2), .jumpFlag(jumpFlag), .out(aluOut));
 
     datamem DM (.clock(clock), .memWrite(memWrite), .addr(aluOut), .data_in(data2), .data_out(memOut));
 
     mux2x1_Nbits M2RMUX (.A(aluOut), .B(memOut), .select(memToReg), .Y(writeData));
+
+    assign done = pc == doneAddress1;
 
 
 endmodule
