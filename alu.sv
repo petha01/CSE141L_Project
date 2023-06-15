@@ -11,8 +11,8 @@ module alu(
 
 
     always_comb begin
-        $displayb("input1: %d", input1);
-        $displayb("input2: %d", input2);
+        // $displayb("input1: %d", input1);
+        // $displayb("input2: %d", input2);
         outVal = 0;
         case(aluOp)
             ADD : outVal = input1 + input2;

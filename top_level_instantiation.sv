@@ -10,9 +10,8 @@ module top_level_instantiation(
     // Wires and logics
     logic  jumpFlag, immediate, regWrite, memWrite, memToReg;
     logic [PC_BITS - 1:0] pc;
-    logic [PC_BITS - 1:0] doneAddress1 = 9'b110110011;  // 435
-    // logic [PC_BITS - 1:0] doneAddress1 = 9'b000000011;  // 3
-    // logic [PC_BITS - 1:0] doneAddress1 = 9'b000000011;
+    logic [PC_BITS - 1:0] doneAddress = 9'b110110011;  // 435 for program 1
+    // logic [PC_BITS - 1:0] doneAddress = 9'b000000011;  // 3
     logic[7:0] aluOut, writeData, data1, data2, memOut, lutOut;
     logic[2:0] instruction, reg1, reg2, aluOp;
 
@@ -37,7 +36,7 @@ module top_level_instantiation(
 
     mux2x1_Nbits M2RMUX (.A(aluOut), .B(memOut), .select(memToReg), .Y(writeData));
 
-    assign done = pc == doneAddress1;
+    assign ack = pc == doneAddress;
 
 
 endmodule
