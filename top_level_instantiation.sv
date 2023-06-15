@@ -11,7 +11,7 @@ module top_level_instantiation(
     wire nextIns, jumpFlag, immediate, regWrite, memWrite, memToReg;
     wire [PC_BITS - 1:0] pc;
     logic [PC_BITS - 1:0] startingAddress = 0;
-    logic [PC_BITS] doneAddress1 = 435;
+    logic [PC_BITS - 1:0] doneAddress1 = 435;
     wire[7:0] aluOut, writeData, data1, data2, memOut;
     wire[2:0] instruction, reg1, reg2, lutOut, aluOp;
 
