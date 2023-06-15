@@ -1,12 +1,13 @@
-module programcounter (
+module programcounter #(parameter PC_BITS = 12)(
     input nextIns, jumpFlag, start, clock,
-    input [8:0] pc_in, startingAddress, doneAddress,
+    input [PC_BITS - 1:0] pc_in, startingAddress, doneAddress,
     input [7:0] target,
-    output logic [8:0] pc_out,
+    output logic [PC_BITS - 1:0] pc_out,
     output logic done
 );
 
     always_ff @ (posedge clock) begin
+        // $displayb("In program counter: %d", pc_in);
         if (start) begin
             pc_out <= startingAddress;
             done <= 0;
