@@ -1,4 +1,4 @@
-// CSE141L  
+// CSE141L
 // test bench for program 3
 module prog3_tb();
 
@@ -17,18 +17,18 @@ logic[  7:0] mat_str[32];      // message string parsed into bytes
 
 // your device goes here
 // explicitly list ports if your names differ from test bench's
-top_level DUT(.clock(clk), start(req),.done(ack));	               // replace "proc" with the name of your top level module
+top_level_instantiation DUT(.clock(clk), start(req),.done(ack));	               // replace "proc" with the name of your top level module
 
 initial begin
 // program 3
 // pattern we are looking for; experiment w/ various values
   pat = 5'b0000;//5'b10101;//$random;//5'b11111;
   str2 = 0;
-  DUT.dm1.core[32] = {pat,3'b0};
+  DUT.datamem.core[32] = {pat,3'b0};
   for(int i=0; i<32; i++) begin
 // search field; experiment w/ various vales
     mat_str[i] = 8'b00000000;//8'b01010101;// $random;// 8'b11111111;
-	DUT.dm1.core[i] = mat_str[i];   
+	DUT.dm1.core[i] = mat_str[i];
 	str2 = (str2<<8)+mat_str[i];
   end
   ctb = 0;
@@ -39,14 +39,14 @@ initial begin
     if(pat==mat_str[j][7:3]) ctb++;
   end
   cto = 0;
-  for(int j=0; j<32; j++) 
+  for(int j=0; j<32; j++)
     if((pat==mat_str[j][4:0]) | (pat==mat_str[j][5:1]) |
        (pat==mat_str[j][6:2]) | (pat==mat_str[j][7:3])) cto ++;
   cts = 0;
   for(int j=0; j<252; j++) begin
     if(pat==str2[255:251]) cts++;
 	str2 = str2<<1;
-  end        	    
+  end
   #10ns req   = 1'b1;      // pulse request to DUT
   #10ns req   = 1'b0;
   wait(ack);               // wait for ack from DUT
@@ -62,7 +62,6 @@ end
 always begin
   #5ns clk = 1;            // tic
   #5ns clk = 0;			   // toc
-end										
+end
 
 endmodule
-										   

@@ -6,7 +6,7 @@
 // 25 * (255/256)%  two error bits
 //    condition: flip2[5:4] == 2'b00 && flip2[3:0] != flip;
 // 25 * (1/256)% no errors (flip2[5:4] == 2'b00 && flip2[3:0] == flip)
-//    
+//
 module prog2_tb();
 
 bit   clk   ,                    // clock source -- drives DUT input of same name
@@ -26,20 +26,20 @@ logic[ 5:0] flip2[15];           // position of possible second corruption bit
 logic[15:0] d2_bad1[15];         // possibly corrupt message w/ parity
 logic[15:0] d2_bad[15];          // possibly corrupt messages w/ parity
 logic       s16, s8, s4, s2, s1; // parity generated from data of d_bad
-logic[ 3:0] err;                 // bitwise XOR of p* and s* as 4-bit vector        
+logic[ 3:0] err;                 // bitwise XOR of p* and s* as 4-bit vector
 logic[11:1] d2_corr[15];         // recovered and corrected messages
 bit  [15:0] score2, case2;
 
 // your device goes here
 // explicitly list ports if your names differ from test bench's
-top_level DUT(.clock(clk), .start(req), .done);	 // replace "top_level" with the name of your top level module
+top_level_instantiation DUT(.clock(clk), .start(req), .done);	 // replace "top_level" with the name of your top level module
 
 initial begin
-// generate parity from random 11-bit messages 
+// generate parity from random 11-bit messages
   for(int i=0; i<15; i++) begin
 	d2_in[i] = $random;
     p8 = ^d2_in[i][11:5];
-    p4 = (^d2_in[i][11:8])^(^d2_in[i][4:2]); 
+    p4 = (^d2_in[i][11:8])^(^d2_in[i][4:2]);
     p2 = d2_in[i][11]^d2_in[i][10]^d2_in[i][7]^d2_in[i][6]^d2_in[i][4]^d2_in[i][3]^d2_in[i][1];
     p1 = d2_in[i][11]^d2_in[i][ 9]^d2_in[i][7]^d2_in[i][5]^d2_in[i][4]^d2_in[i][2]^d2_in[i][1];
     p0 = ^d2_in[i]^p8^p4^p2^p1;
@@ -52,8 +52,8 @@ initial begin
     flip2[i] = $random;	   // 'b0;
 	d2_bad[i] = d2_bad1[i] ^ (1'b1<<flip2[i]);
 // if flip2[5:4]==0 && flip2[3:0]==flip, then flip2 undoes flip, so no error
-	DUT.dm1.core[31+2*i] = {d2_bad[i][15:8]};
-    DUT.dm1.core[30+2*i] = {d2_bad[i][ 7:0]};
+	DUT.datamem.core[31+2*i] = {d2_bad[i][15:8]};
+    DUT.datamem.core[30+2*i] = {d2_bad[i][ 7:0]};
   end
   #10ns req   = 1;
   #10ns req   = 0;
@@ -109,7 +109,6 @@ end
 always begin
   #5ns clk = 1;            // tic
   #5ns clk = 0;			   // toc
-end										
+end
 
 endmodule
-										   
