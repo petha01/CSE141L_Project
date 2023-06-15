@@ -20,7 +20,6 @@
 mov r0, 0
 
 loop:
-
 mov r3, 0
 mov r6, 0
 
@@ -86,7 +85,7 @@ add r6, r3    // r6 =  b11 b10 b9 b8 b7 b6 b5 p8
 
 mov r7, 31
 add r7, r0    // r7 = the index to store encoded version of MSW
-st r6, r7     // store encoded MSW to mem[31]
+st r7, r6     // store encoded MSW to mem[31]
 
 // start calculation of LSW encoded
 mov r6, 0
@@ -315,13 +314,13 @@ add r6, r3    // r6 =  b4 b3 b2 p4 b1 p2 p1 p0
 
 mov r7, 30
 add r7, r0    // r7 = the index to store encoded version of LSW
-st r6, r7     // store encoded MSW to mem[30]
+st r7, r6     // store encoded MSW to mem[30]
 
 // increment index (mem[i+2]) for next loop
 mov r7, 2
 add r0, r7
 
-// if r0 == 0 : jump
+// if r7 == 0 : done
 mov r7, -30
 add r7, r0
 blqz r7, loop
