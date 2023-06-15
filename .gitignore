@@ -6,3 +6,8 @@ output_files/*
 *.bak
 .DS_Store
 *.qws
+work/*
+*.wlf
+transcript
+*.mti
+*.mpf

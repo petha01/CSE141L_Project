@@ -2,13 +2,14 @@ import definitions::*;
 module control (
     input clock,
     input [2:0] instructions,
-    output [2:0] aluOp,
-    output nextIns, immediate, regWrite, memWrite, memToReg
+    output logic [2:0] aluOp,
+    output logic nextIns, immediate, regWrite, memWrite, memToReg
 );
 
     logic [2:0] currentState, nextState;
-    
+
     always_ff @ (posedge clock) begin
+        // $displayb("In control, state: %d", currentState);
         case (currentState)
             PC: begin
                 nextState <= REGISTERREAD;
@@ -37,8 +38,9 @@ module control (
                 nextIns <= 0;
                 immediate <= 0;
                 regWrite <= 0;
-                
+
                 if (instructions == ST) begin
+                    $displayb("Store instruction");
                     memWrite <= 1;
                 end else begin
                     memWrite <= 0;
@@ -63,6 +65,15 @@ module control (
                 end else begin
                     regWrite <= 0;
                 end
+            end
+
+            default: begin
+                nextState <= PC;
+                nextIns <= 0;
+                immediate <= 0;
+                memWrite <= 0;
+                memToReg <= 0;
+                regWrite <= 0;
             end
         endcase
 

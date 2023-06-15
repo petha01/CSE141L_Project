@@ -7,11 +7,11 @@ module top_level(
   logic[7:0]  DM_dat_in, DM_addr, DM_dat_out, reg_file[4];
 
 
-  dat_mem dm1(.dat_in(DM_dat_in)  ,  // from reg_file
-             .clk           ,
-			 .wr_en  (DM_write), // stores
+  datamem dm1(.data_in(DM_dat_in)  ,  // from reg_file
+             .clock(clk)           ,
+			 .memWrite  (DM_write), // stores
 			 .addr   (DM_addr),
-             .dat_out(DM_dat_out));
+             .data_out(DM_dat_out));
 
   initial begin
     done = 0;
