@@ -10,10 +10,17 @@ module instructionmem #(parameter PC_BITS = 12)(
     end
 
     always_comb begin
+
         ins = core[pc];
+        $display("instructionmem ins: %d",ins);
         instructions = ins[8:6];
+        $display("instructionmem instructions: %d",instructions);
         reg1 = ins[5:3];
+        $display("instructionmem reg1: %d",reg1);
         reg2 = ins[2:0];
+        $display("instructionmem reg2: %d",reg2);
+        // $display("instructionmem pc input: %d",pc);
+
     end
 
 endmodule

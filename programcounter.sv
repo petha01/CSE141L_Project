@@ -12,6 +12,8 @@ module programcounter #(parameter PC_BITS = 12)(
         end else begin
             pc <= pc + 'b1;
         end
+        // $display("Program Counter pc: %d",pc);
+
     end
 
 endmodule

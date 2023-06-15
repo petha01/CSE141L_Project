@@ -12,7 +12,7 @@ always_comb begin
     regWrite = 0;
     memWrite = 0;
     memToReg = 0;
-
+    $display("Control status: %d",instructions);
     case(aluOp)
             ADD : begin
                 regWrite = 1;
