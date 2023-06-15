@@ -8,16 +8,16 @@ module registerFile(
     logic [7:0] registers[7:0];
 
     always_ff @(posedge clock) begin
-        // $displayb("readRegister1: %d", readRegister1);
-        // $displayb("readRegister2: %d", readRegister2);
+        $displayb("readRegister1: %d", readRegister1);
+        $displayb("readRegister2: %d", readRegister2);
 
         if (regWrite) begin
-            // $displayb("writeData: %d", writeData);
+            $displayb("writeData: %d", writeData);
             registers[readRegister1] <= writeData;
         end
 
         if (immediate) begin
-            // $displayb("ltValue: %d", ltValue);
+            $displayb("ltValue: %d", ltValue);
             readData1 <= registers[readData1];
             readData2 <= ltValue;
         end

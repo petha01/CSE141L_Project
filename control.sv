@@ -12,6 +12,7 @@ module control (
         // $displayb("In control, state: %d", currentState);
         case (currentState)
             PC: begin
+                $displayb("Control: PC");
                 nextState <= REGISTERREAD;
                 nextIns <= 1;
                 immediate <= 0;
@@ -21,6 +22,7 @@ module control (
             end
 
             REGISTERREAD: begin
+                $displayb("Control: REGISTERREAD");
                 nextState <= DATAMEM;
                 nextIns <= 0;
                 regWrite <= 0;
@@ -34,13 +36,14 @@ module control (
             end
 
             DATAMEM: begin
+                $displayb("Control: DATAMEM");
                 nextState <= REGISTERWRITE;
                 nextIns <= 0;
                 immediate <= 0;
                 regWrite <= 0;
 
                 if (instructions == ST) begin
-                    $displayb("Store instruction");
+                    $displayb("store instruction");
                     memWrite <= 1;
                 end else begin
                     memWrite <= 0;
@@ -54,6 +57,7 @@ module control (
             end
 
             REGISTERWRITE: begin
+                $displayb("Control: REGISTERWRITE");
                 nextState <= PC;
                 nextIns <= 0;
                 immediate <= 0;
@@ -68,6 +72,7 @@ module control (
             end
 
             default: begin
+                $displayb("Control: default");
                 nextState <= PC;
                 nextIns <= 0;
                 immediate <= 0;

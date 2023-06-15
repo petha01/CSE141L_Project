@@ -11,7 +11,8 @@ module top_level_instantiation(
     logic nextIns, jumpFlag, immediate, regWrite, memWrite, memToReg;
     logic [PC_BITS - 1:0] pc;
     logic [PC_BITS - 1:0] startingAddress = 0;
-    logic [PC_BITS - 1:0] doneAddress1 = 9'b110110011;  // 435
+    // logic [PC_BITS - 1:0] doneAddress1 = 9'b110110011;  // 435
+    logic [PC_BITS - 1:0] doneAddress1 = 9'b000000011;  // 3
     // logic [PC_BITS - 1:0] doneAddress1 = 9'b000000011;
     logic[7:0] aluOut, writeData, data1, data2, memOut, lutOut;
     logic[2:0] instruction, reg1, reg2, aluOp;
@@ -35,7 +36,7 @@ module top_level_instantiation(
 
     datamem DM (.clock(clock), .memWrite(memWrite), .addr(aluOut), .data_in(data2), .data_out(memOut));
 
-    mux2x1_Nbits M2RMUX (.A(memOut), .B(aluOut), .select(memToReg), .Y(writeData));
+    mux2x1_Nbits M2RMUX (.A(aluOut), .B(memOut), .select(memToReg), .Y(writeData));
 
 
 endmodule

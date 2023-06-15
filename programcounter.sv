@@ -15,7 +15,7 @@ module programcounter #(parameter PC_BITS = 12)(
             pc_out <= pc_in;
             done <= 1;
         end else if (nextIns && jumpFlag) begin
-            pc_out <= pc_in + 1 + target;
+            pc_out <= pc_in - target;
             done <= 0;
         end else if (nextIns) begin
             pc_out <= pc_in + 1;
