@@ -4,3 +4,5 @@ output_files/*
 *.qpf
 *.qsf
 *.bak
+.DS_Store
+*.qws

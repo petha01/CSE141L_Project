@@ -23,7 +23,7 @@ bit  [15:0] score1, case1;
 // change "top_level" if you called your device something different
 // explicitly list ports if your names differ from test bench's
 // if you used any parameters, override them here
-top_level DUT(.clock(clk), .start(req), .done(ack));            // replace "proc" with the name of your top level module
+top_level_instantiation DUT(.clock(clk), .start(req), .done(ack));            // replace "proc" with the name of your top level module
 
 initial begin
   for(int i=0;i<15;i++)	begin

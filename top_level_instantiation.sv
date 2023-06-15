@@ -1,7 +1,7 @@
 import definitions::*;
 module top_level_instantiation(
-    input clock, start,
-    output done
+    input clock, req,
+    output ack
 );
 
     // Parameters
@@ -17,8 +17,8 @@ module top_level_instantiation(
 
 
     // Module instances
-    programcounter PC (.clock(clock), .start(start), .nextIns(nextIns), .jumpFlag(jumpFlag), .pc_in(pc),
-        .startingAddress(startingAddress), .doneAddress(doneAddress1), .target(aluOut), .pc_out(pc), .done(done));
+    programcounter PC (.clock(clock), .start(req), .nextIns(nextIns), .jumpFlag(jumpFlag), .pc_in(pc),
+        .startingAddress(startingAddress), .doneAddress(doneAddress1), .target(aluOut), .pc_out(pc), .done(ack));
 
     instructionmem #(PC_BITS) IM (.pc(pc), .instructions(instruction), .reg1(reg1), .reg2(reg2));
 
