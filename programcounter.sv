@@ -2,10 +2,10 @@ module programcounter (
     input nextIns, jumpFlag, start, clock,
     input [8:0] pc_in, startingAddress, doneAddress,
     input [7:0] target,
-    output [8:0] pc_out,
-    output done
+    output logic [8:0] pc_out,
+    output logic done
 );
-    
+
     always_ff @ (posedge clock) begin
         if (start) begin
             pc_out <= startingAddress;
