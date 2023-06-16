@@ -13,7 +13,7 @@ module top_level_instantiation(
     logic [PC_BITS - 1:0] doneAddress = 9'b110110011;  // 435 for program 1
     // logic [PC_BITS - 1:0] doneAddress = 9'b000000011;  // 3
     logic[7:0] aluOut, writeData, data1, data2, memOut, lutOut;
-    logic[2:0] instruction, reg1, reg2, aluOp, writeRegister;
+    logic[2:0] instruction, reg1, reg2, aluOp;
 
 
     // Module instances
@@ -22,10 +22,8 @@ module top_level_instantiation(
 
     instructionmem #(PC_BITS) IM (.pc(pc), .instructions(instruction), .reg1(reg1), .reg2(reg2));
 
-    assign wr_reg = (memToReg == 'b1) ? reg1 : reg2;
-
     registerFile RF (.clock(clock), .immediate(immediate), .regWrite(regWrite), .readRegister1(reg1), .readRegister2(reg2),
-        .writeRegister(writeRegister), .ltValue(lutOut), .writeData(writeData), .readData1(data1), .readData2(data2));
+        .ltValue(lutOut), .writeData(writeData), .readData1(data1), .readData2(data2));
 
     LookupTable LT (.instruction(reg2), .out(lutOut));
 
