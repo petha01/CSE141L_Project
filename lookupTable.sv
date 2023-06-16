@@ -3,7 +3,7 @@ module LookupTable(
     output reg [7:0] out
 );
 
-    always @(*) begin
+    always_comb begin
         case(instruction)
             3'b000: out = 8'b01100100; // 100
             3'b001: out = 8'b00001010; // 10

@@ -7,6 +7,22 @@ module registerFile#(parameter pw=3)(
 
     logic [7:0] registers[7:0];
 
+    always_comb begin
+        if (immediate) begin
+            readData1 = registers[readRegister1];
+            readData2 = ltValue;
+            $display("Register File readData1: %d",registers[readRegister1]);
+            $display("Register File readData2: %d",ltValue);
+        end
+
+        else begin
+            readData1 = registers[readRegister1];
+            readData2 = registers[readRegister2];
+            $display("Register File readData1: %d",registers[readRegister1]);
+            $display("Register File readData2: %d",registers[readRegister2]);
+        end
+    end
+
     always_ff @(posedge clock) begin
         $display("Register File readRegister1: %d",readRegister1);
         $display("Register File readRegister2: %d",readRegister2);
@@ -16,19 +32,19 @@ module registerFile#(parameter pw=3)(
             registers[readRegister1] <= writeData;
         end
 
-        if (immediate) begin
-            readData1 <= registers[readRegister1];
-            readData2 <= ltValue;
-            $display("Register File readData1: %d",registers[readRegister1]);
-            $display("Register File readData2: %d",ltValue);
-        end
+        // if (immediate) begin
+        //     readData1 <= registers[readRegister1];
+        //     readData2 <= ltValue;
+        //     $display("Register File readData1: %d",registers[readRegister1]);
+        //     $display("Register File readData2: %d",ltValue);
+        // end
 
-        else begin
-            readData1 <= registers[readRegister1];
-            readData2 <= registers[readRegister2];
-            $display("Register File readData1: %d",registers[readRegister1]);
-            $display("Register File readData2: %d",registers[readRegister2]);
-        end
+        // else begin
+        //     readData1 <= registers[readRegister1];
+        //     readData2 <= registers[readRegister2];
+        //     $display("Register File readData1: %d",registers[readRegister1]);
+        //     $display("Register File readData2: %d",registers[readRegister2]);
+        // end
     end
 
     // logic[7:0] core[2**pw];						// Register core/space
