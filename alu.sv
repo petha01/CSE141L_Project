@@ -30,7 +30,7 @@ module alu(
             MOV : out = input2;
             LD  : out = input2;
             ST  : out = input1;
-            BLQZ: out = 0;
+            BLQZ: out = input2;
             default: out = 0;
         endcase
 
