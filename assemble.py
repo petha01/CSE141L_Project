@@ -124,6 +124,6 @@ def translate(assembly_file, machine_file):
   # Close the file
   input.close()
   output.close()
-translate('test_files/mov_test.txt', 'test_files/mov_test_output.txt')
+translate('test_files/simple.txt', 'test_files/simple_out.txt')
 
   

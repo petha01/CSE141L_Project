@@ -13,10 +13,10 @@ module datamem(
     assign data_out = core[addr];
 
     always_ff @ (posedge clock) begin
-        // $displayb("DataMen memWrite: %d", memWrite);
         if (memWrite) begin
             core[addr] <= data_in;
-            // $displayb("Printing data in: %d, address: %d", data_in, addr);
+            $displayb("DataMem addr: %d", addr);
+            $displayb("DataMem data_in: %d", data_in);
         end
     end
 endmodule
