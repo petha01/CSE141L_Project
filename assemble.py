@@ -70,9 +70,9 @@ def translate(assembly_file, machine_file):
         total_lines += 1
       continue
 
-    if words[0] == "hello":
-      output.write("hello + \n")
-      continue
+    # if words[0] == "hello":
+    #   output.write("hello + \n")
+    #   continue
   
     # Check if instruction is valid
     if words[0] in instructions:
@@ -134,6 +134,6 @@ def translate(assembly_file, machine_file):
   # Close the file
   input.close()
   output.close()
-translate('test_files/simple.txt', 'test_files/simple_out.txt')
+translate('test_files/mov_test.txt', 'test_files/mov_test_out.txt')
 
   
