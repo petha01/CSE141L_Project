@@ -2,7 +2,6 @@
 //this is just a test to test on to see 
 // if assembly works
 
-loop:          // this is 13 lines above the blqz instruction.
 mov r0, 0
 mov r6, 3
-blqz r6, loop
+rsl r1, 4

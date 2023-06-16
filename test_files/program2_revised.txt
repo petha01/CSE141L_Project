@@ -10,47 +10,6 @@ mov r7, 0       // register for MSW
 mov r6, 0       // register for LSW 
 
 loop:
-mov r7, 0
-mov r3, 1
-// calculating
-add r3, r0
-ld r1, r3      // r1 = mem[r3]
-mov r2, 224
-and r1, r2     // 224 = binary 11100000. Keep the b11 to b9
-mov r2, 3
-rsl r1, r2     // position the 3 bits
-add r7, r1
-
-ld r1, r3       // r1 = mem[r3]
-mov r2, 30
-and r1, r2      // 30 = binary 00011110. Keep b8 to b5
-mov r2, 3
-rsl r1, r2      // position the 4 bits
-add r6, r1
-
-ld r1, r0       // r1 = mem[r0]
-mov r2, 224
-and r1, r2      // 224 = binary 11100000. Keep the b4 to b2
-mov r2, 4
-rsl r1, r2      // position the 3 bits
-add r6, r1
-
-ld r1, r0       // r1 = mem[r0]
-mov r2, 8
-and r1, r2      // 8 = binary 00001000. Keep b1 only
-mov r2, 5
-rsl r1, r2      // position the bit
-add r6, r1
-
-// r7 = MSW = mem[1] = 0   0   0   0   0 b11 b10  b9
-// r6 = LSW = mem[0] =   b8  b7  b6  b5  b4  b3  b2  b1
-
-mov r2, -30
-add r2, r0
-st r2, r6       // Store the LSW
-mov r3, 1
-add r2, r3      
-st r2, r7       // Store the MSW
 
 // compare p8
 add r3, r0
@@ -200,7 +159,6 @@ and r1, r3
 and r2, r3   
 xor r2, r1     // xor(b11:1, p8, p4, p2, p1, p0)
 
-hello
 blqz r2 zerotwo
 // this would be with a one parity/error bit:
 
@@ -220,7 +178,47 @@ ld r1,
 
 
 zero:
+mov r7, 0
+mov r3, 1
+// calculating
+add r3, r0
+ld r1, r3      // r1 = mem[r3]
+mov r2, 224
+and r1, r2     // 224 = binary 11100000. Keep the b11 to b9
+mov r2, 3
+rsl r1, r2     // position the 3 bits
+add r7, r1
 
+ld r1, r3       // r1 = mem[r3]
+mov r2, 30
+and r1, r2      // 30 = binary 00011110. Keep b8 to b5
+mov r2, 3
+rsl r1, r2      // position the 4 bits
+add r6, r1
+
+ld r1, r0       // r1 = mem[r0]
+mov r2, 224
+and r1, r2      // 224 = binary 11100000. Keep the b4 to b2
+mov r2, 4
+rsl r1, r2      // position the 3 bits
+add r6, r1
+
+ld r1, r0       // r1 = mem[r0]
+mov r2, 8
+and r1, r2      // 8 = binary 00001000. Keep b1 only
+mov r2, 5
+rsl r1, r2      // position the bit
+add r6, r1
+
+// r7 = MSW = mem[1] = 0   0   0   0   0 b11 b10  b9
+// r6 = LSW = mem[0] =   b8  b7  b6  b5  b4  b3  b2  b1
+
+mov r2, -30
+add r2, r0
+st r2, r6       // Store the LSW
+mov r3, 1
+add r2, r3      
+st r2, r7       // Store the MSW
 
 // increment counter for next 
 add r0, 2
