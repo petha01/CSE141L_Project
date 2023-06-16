@@ -5,8 +5,6 @@
 // mem[31] = b11 b10 b9 b8 b7 b6 b5 p8
 // mem[30] = b4 b3 b2 p4 b1 p2 p1 p0
 
-
-
 // NOTES:
 // r0: index of LSW
 // r1: loaded LSW
@@ -320,7 +318,9 @@ st r7, r6     // store encoded MSW to mem[30]
 mov r7, 2
 add r0, r7
 
-// if r7 == 0 : done
+// if r7 > 0 : done
 mov r7, -30
+mov r3, 1
 add r7, r0
+add r7, r3
 blqz r7, loop
