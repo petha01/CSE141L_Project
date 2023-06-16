@@ -323,4 +323,5 @@ mov r7, -30
 mov r3, 1
 add r7, r0
 add r7, r3
+hello
 blqz r7, loop

@@ -61,7 +61,7 @@ def translate(assembly_file, machine_file):
     if len(words) == 0:
       continue
 
-    if ':' in line:
+    if ':' in words[0]:
       jump = line.replace(":", "").split()
       branches[jump[0]] = total_lines
 
@@ -73,13 +73,13 @@ def translate(assembly_file, machine_file):
     if words[0] == "hello":
       output.write("hello + \n")
       continue
+  
     # Check if instruction is valid
     if words[0] in instructions:
       
     # if words[0] == 'blqz' and (words[2] not in branches):
     #   branches[words[2]] = total_lines 
-
-      if words[0] == 'blqz' and words[2] in branches:
+      if words[0] == 'blqz':
         branch = True
       opcode = instructions[words[0]]
     else:
@@ -105,11 +105,11 @@ def translate(assembly_file, machine_file):
       try:
         if not branch:
           num = int(words[2])
-        keys_except_last_three = list(lookup_table.keys())[:-3]
+        keys_except_last_four = list(lookup_table.keys())[:-4]
         output.write(instructions['mov'] + registers['r4'] + lookup_table['0'] + "\n")
         total_lines += 1
 
-        for key in keys_except_last_three:
+        for key in keys_except_last_four:
           while num >= int(key):
             output.write(instructions['mov'] + registers['r5'] + lookup_table[key] + "\n")
             output.write(instructions['add'] + registers['r4'] + registers['r5'] + "\n")
