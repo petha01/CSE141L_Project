@@ -32,10 +32,12 @@ lookup_table = {
   '0': '100',
   '-1': '101',
   '-30': '110',
-  
+  '-5': '111',
 }
 
 branches = {}
+
+BUFFER = 50
 
 def translate(assembly_file, machine_file):
 
@@ -58,15 +60,26 @@ def translate(assembly_file, machine_file):
     words = line.replace(",", "").split()
     if len(words) == 0:
       continue
-    
+
     if ':' in line:
       jump = line.replace(":", "").split()
-      branches[jump[0]] = total_lines + 1
+      branches[jump[0]] = total_lines
+
+      for i in range(0,BUFFER):
+        output.write(instructions['mov'] + registers['r4'] + lookup_table['0'] + "\n")
+        total_lines += 1
       continue
 
+    if words[0] == "hello":
+      output.write("hello + \n")
+      continue
     # Check if instruction is valid
     if words[0] in instructions:
-      if words[0] == 'blqz':
+      
+    # if words[0] == 'blqz' and (words[2] not in branches):
+    #   branches[words[2]] = total_lines 
+
+      if words[0] == 'blqz' and words[2] in branches:
         branch = True
       opcode = instructions[words[0]]
     else:
@@ -79,12 +92,10 @@ def translate(assembly_file, machine_file):
       raise ValueError(f"Invalid register: {words[1]} in line {line}")
     
     # Check if operand register is valid
-    
+
     if branch:   # if it is a branch
-      num = total_lines - branches[words[2]] + 1
+      num = total_lines - branches[words[2]]
       print(str(num) + "\n")
-      if num in lookup_table:
-        reg2 = lookup_table[words[2]]
       
     if words[2] in registers:
       reg2 = registers[words[2]]
@@ -96,34 +107,33 @@ def translate(assembly_file, machine_file):
           num = int(words[2])
         keys_except_last_three = list(lookup_table.keys())[:-3]
         output.write(instructions['mov'] + registers['r4'] + lookup_table['0'] + "\n")
-        print(instructions['mov'] + registers['r4'] + lookup_table['0'])
         total_lines += 1
 
         for key in keys_except_last_three:
           while num >= int(key):
             output.write(instructions['mov'] + registers['r5'] + lookup_table[key] + "\n")
             output.write(instructions['add'] + registers['r4'] + registers['r5'] + "\n")
-            print(instructions['mov'] + registers['r5'] + lookup_table[key])
-            print(instructions['add'] + registers['r4'] + registers['r5'])
             total_lines += 2
             num -= int(key)
+
         reg2 = registers['r4']
+
         if words[0] == 'mov':
             output.write(instructions['mov'] + reg1 + lookup_table['0'] + "\n")
-            print(instructions['mov'] + reg1 + lookup_table['0'])
             output.write(instructions['add'] + reg1 + registers['r4'] + "\n")
-            print(instructions['add'] + reg1 + registers['r4'])
+            total_lines += 2
             continue
+        
       except:
         raise ValueError(f"Invalid register: {words[1]} in line {line}")
+
     machine_line = opcode + reg1 + reg2
     output.write(machine_line + "\n")
-    print(machine_line)
     total_lines += 1
 
   # Close the file
   input.close()
   output.close()
-translate('test_files/mov_test.txt', 'test_files/mov_test_output.txt')
+translate('test_files/test.txt', 'test_files/test_out.txt')
 
   
