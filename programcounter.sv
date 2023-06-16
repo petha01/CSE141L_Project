@@ -7,8 +7,6 @@ module programcounter #(parameter PC_BITS = 12)(
 logic[1:0] counter = 2'b11;
 
     always_ff @ (posedge clock) begin
-        // run every 3 cycles
-        // if (counter == 3) begin
             counter <= 2'b00;
             if (start) begin
                 pc <= 0;
@@ -17,8 +15,6 @@ logic[1:0] counter = 2'b11;
             end else begin
                 pc <= pc + 'b1;
             end
-        // end
-        // else counter <= counter + 'b1;
         $display("Program Counter pc: %d",pc);
 
     end

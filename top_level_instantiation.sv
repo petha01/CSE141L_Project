@@ -18,7 +18,7 @@ module top_level_instantiation(
 
 
     // Module instances
-    programcounter #(PC_BITS) PC (.clock(clock_divide), .start(req), .jumpFlag(jumpFlag), 
+    programcounter #(PC_BITS) PC (.clock(clock), .start(req), .jumpFlag(jumpFlag), 
          .target(aluOut), .pc(pc));
 
     instructionmem #(PC_BITS) IM (.pc(pc), .instructions(instruction), .reg1(reg1), .reg2(reg2));

@@ -9,7 +9,7 @@ module datamem(
     initial begin
         // $readmemh("filename.list", core);
     end
-
+    
     assign data_out = core[addr];
 
     always_ff @ (posedge clock) begin
@@ -18,5 +18,6 @@ module datamem(
             $displayb("DataMem addr: %d", addr);
             $displayb("DataMem data_in: %d", data_in);
         end
+    
     end
 endmodule
