@@ -8,7 +8,7 @@ module top_level_instantiation(
     parameter PC_BITS = 10;
 
     // Wires and logics
-    logic  jumpFlag, immediate, regWrite, memWrite, memToReg;
+    logic  jumpFlag, immediate, regWrite, memWrite, memToReg, clock_divide;
     logic [PC_BITS - 1:0] pc;
     logic [PC_BITS - 1:0] doneAddress = 9'b110110011;  // 435 for program 1
     // logic [PC_BITS - 1:0] doneAddress = 9'b000000011;  // 3
@@ -17,7 +17,7 @@ module top_level_instantiation(
 
 
     // Module instances
-    programcounter #(PC_BITS) PC (.clock(clock), .start(req), .jumpFlag(jumpFlag), 
+    programcounter #(PC_BITS) PC (.clock(clock_divide), .start(req), .jumpFlag(jumpFlag), 
          .target(aluOut), .pc(pc));
 
     instructionmem #(PC_BITS) IM (.pc(pc), .instructions(instruction), .reg1(reg1), .reg2(reg2));
@@ -35,6 +35,8 @@ module top_level_instantiation(
     datamem DM (.clock(clock), .memWrite(memWrite), .addr(aluOut), .data_in(data2), .data_out(memOut));
 
     mux2x1_Nbits M2RMUX (.A(aluOut), .B(memOut), .select(memToReg), .Y(writeData));
+
+    clock_divider CD (.clkin(clock), .clkout(clock_divide));
 
     assign ack = pc == doneAddress;
 

@@ -4,15 +4,22 @@ module programcounter #(parameter PC_BITS = 12)(
     output logic [PC_BITS - 1:0] pc
 );
 
+logic[1:0] counter = 2'b11;
+
     always_ff @ (posedge clock) begin
-        if (start) begin
-            pc <= 0;
-        end  else if (jumpFlag) begin
-            pc <= pc - target;
-        end else begin
-            pc <= pc + 'b1;
-        end
-        // $display("Program Counter pc: %d",pc);
+        // run every 3 cycles
+        // if (counter == 3) begin
+            counter <= 2'b00;
+            if (start) begin
+                pc <= 0;
+            end  else if (jumpFlag) begin
+                pc <= pc - target;
+            end else begin
+                pc <= pc + 'b1;
+            end
+        // end
+        // else counter <= counter + 'b1;
+        $display("Program Counter pc: %d",pc);
 
     end
 

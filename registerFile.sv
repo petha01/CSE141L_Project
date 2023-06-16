@@ -12,21 +12,22 @@ module registerFile#(parameter pw=3)(
         $display("Register File readRegister2: %d",readRegister2);
 
         if (regWrite) begin
+            $display("Register File writeData: %d",writeData);
             registers[readRegister1] <= writeData;
         end
 
         if (immediate) begin
             readData1 <= registers[readRegister1];
             readData2 <= ltValue;
-            $display("Register File readData1: %d",readData1);
-            $display("Register File readData2: %d",readData2);
+            $display("Register File readData1: %d",registers[readRegister1]);
+            $display("Register File readData2: %d",ltValue);
         end
 
         else begin
             readData1 <= registers[readRegister1];
             readData2 <= registers[readRegister2];
-            $display("Register File readData1: %d",readData1);
-            $display("Register File readData2: %d",readData2);
+            $display("Register File readData1: %d",registers[readRegister1]);
+            $display("Register File readData2: %d",registers[readRegister2]);
         end
     end
 
