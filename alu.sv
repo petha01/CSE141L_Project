@@ -5,9 +5,7 @@ module alu(
     output logic jumpFlag,
     output logic[7:0] out
 );
-    logic [2:0] temp;
-
-
+    logic[7:0] temp;
 
     always_comb begin
         $displayb("ALU input1: %d", input1);
@@ -33,7 +31,8 @@ module alu(
             ST  : out = input1;
             BLQZ: begin
                 out = input2;
-                if (input1 < 8'b00000001) begin
+                temp = input1 - 2;
+                if (temp < -8'b00000001) begin
                     jumpFlag = 1;
                 end
             end
