@@ -11,7 +11,8 @@ logic[1:0] counter = 2'b11;
             if (start) begin
                 pc <= 0;
             end  else if (jumpFlag) begin
-                pc <= pc - target;
+                // pc <= pc - target;
+                pc <= target;
             end else begin
                 pc <= pc + 'b1;
             end

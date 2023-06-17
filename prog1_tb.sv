@@ -47,8 +47,8 @@ initial begin
 // generate parity for each message; display result and that of DUT
   // $display("start program 1");
   $display();
-  $display("DUT.DM.core[30]: %d",DUT.DM.core[30]);
-  $display("DUT.DM.core[31]: %d",DUT.DM.core[31]);
+  // $display("DUT.DM.core[30]: %d",DUT.DM.core[30]);
+  // $display("DUT.DM.core[31]: %d",DUT.DM.core[31]);
   // $display("DUT.DM.core[33]: %d",DUT.DM.core[32]);
   // $display("DUT.DM.core[34]: %d",DUT.DM.core[33]);
   for(int i=0;i<15;i++) begin

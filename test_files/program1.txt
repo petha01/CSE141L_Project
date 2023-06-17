@@ -160,7 +160,7 @@ and r1, r7
 add r3, r1    // r3 = 0 0 0 0 0 0 0 b11
 
 ld r1, r0
-rsl r1, 1
+rsl r1, 7
 and r1, r7    // r1 = 0 0 0 0 0 0 0 b10
 xor r3, r1    // r3 = xor(b11, b10)
 
