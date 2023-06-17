@@ -36,8 +36,8 @@ lookup_table = {
 }
 
 branches = {
-  'zerotwo': 440,
-  'zero': 490,
+  'zerotwo': 254,   # 440
+  'zero': 255,      # 490
 }
 
 BUFFER = 10
@@ -101,10 +101,6 @@ def translate(assembly_file, machine_file):
     else:
       raise ValueError(f"Invalid register: {words[1]} in line {line}")
     
-
-
-
-
     if branch:   # if it is a branch
       num = branches[words[2]]
       print(str(num) + "\n")
