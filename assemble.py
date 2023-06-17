@@ -81,7 +81,6 @@ def translate(assembly_file, machine_file):
     # if words[0] == 'blqz' and (words[2] not in branches):
     #   branches[words[2]] = total_lines 
       if words[0] == 'blqz':
-        output.write('underneath is all blqz at line ' + str(total_lines) + "\n")
         branch = True
       opcode = instructions[words[0]]
     else:
