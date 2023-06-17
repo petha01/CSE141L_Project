@@ -7,7 +7,7 @@ module instructionmem #(parameter PC_BITS = 12)(
     logic[8:0] ins;
     initial begin
         // $readmemb("C:\Data\Class Material\SP23\CSE141L\CSE141L_Project\test_files\program1_out.txt",core);
-        $readmemb("test_files/simple_out.txt",core);
+        $readmemb("test_files/program1_out.txt",core);
     end
 
     always_comb begin

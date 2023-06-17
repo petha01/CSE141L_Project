@@ -39,7 +39,7 @@ module alu(
         end else begin
             jumpFlag = 0;
         end
-        $displayb("ALU inoutput1: %d", out);
+        $displayb("ALU output1: %d", out);
         $displayb("ALU jumpFlag: %d", jumpFlag);
     end
 endmodule

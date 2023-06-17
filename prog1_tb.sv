@@ -36,6 +36,10 @@ initial begin
     // $displayb(" DUT.DM.core[2*i]: %d",  DUT.DM.core[2*i]);
 
   end
+  // DUT.DM.core[0]    = 8'b00000001;
+  // DUT.DM.core[1]    = 8'b00000010;
+  // DUT.DM.core[2]    = 8'b00000011;
+  // DUT.DM.core[3]    = 8'b00000100;
   // $displayb("For loop for DM completed");
   #10ns req   = 1'b1;          // pulse request to DUT
   #10ns req   = 1'b0;
@@ -45,6 +49,8 @@ initial begin
   $display();
   $display("DUT.DM.core[30]: %d",DUT.DM.core[30]);
   $display("DUT.DM.core[31]: %d",DUT.DM.core[31]);
+  // $display("DUT.DM.core[33]: %d",DUT.DM.core[32]);
+  // $display("DUT.DM.core[34]: %d",DUT.DM.core[33]);
   for(int i=0;i<15;i++) begin
     p8 = ^d1_in[i][11:5];
     p4 = (^d1_in[i][11:8])^(^d1_in[i][4:2]);

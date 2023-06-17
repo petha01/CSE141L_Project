@@ -3,17 +3,18 @@ mov r1, 0
 mov r2, 0
 mov r3, -1
 loop:
-ld r6, r0
 
+ld r6, r0
 mov r2, 30
 add r2, r0
 st r2, r6
 
 mov r7, 1
 add r2, r7
-st r7, r6
+st r2, r6
 
-mov r2, 2
-add r3, r2
-add r0, r2
+add r3, r7
+mov r7, 2
+add r0, r7
+
 blqz r3, loop

@@ -10,9 +10,9 @@ module top_level_instantiation(
     // Wires and logics
     logic  jumpFlag, immediate, regWrite, memWrite, memToReg, clock_divide;
     logic [PC_BITS - 1:0] pc;
-    // logic [PC_BITS - 1:0] doneAddress = 9'b110110011;  // 435 for program 1
+    // logic [PC_BITS - 1:0] doneAddress = 10'b1000000100;  // 435 for program 1
     // logic [PC_BITS - 1:0] doneAddress = 9'b000000011;  // 3
-    logic [PC_BITS - 1:0] doneAddress = 9'b000001111;  // 15
+    logic [PC_BITS - 1:0] doneAddress = 10'b000010111;  // 23
     logic[7:0] aluOut, writeData, data1, data2, memOut, lutOut;
     logic[2:0] instruction, reg1, reg2, aluOp;
 
