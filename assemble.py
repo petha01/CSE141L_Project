@@ -99,7 +99,7 @@ def translate(assembly_file, machine_file):
       
     if words[2] in registers:
       reg2 = registers[words[2]]
-    elif words[2] in lookup_table:
+    elif (words[2] in lookup_table) and (words[0] == 'mov'):
       reg2 = lookup_table[words[2]]
     else:
       try:
@@ -131,9 +131,10 @@ def translate(assembly_file, machine_file):
     output.write(machine_line + "\n")
     total_lines += 1
 
+
   # Close the file
   input.close()
   output.close()
-translate('test_files/mov_test.txt', 'test_files/mov_test_out.txt')
+translate('test_files/program1.txt', 'test_files/program1_out.txt')
 
   
