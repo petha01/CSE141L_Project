@@ -24,7 +24,7 @@ mov r6, 0
 
 // start calculation of MSW encoded
 ld r1, r0     //r1 = mem[0] = b8 b7 b6 b5 b4 b3 b2 b1
-rsl r1, 5     // rotate shift mem[0] to the left 5 bits
+rsl r1, 5     // rotate shift mem[0] to the left 5 bits, b3 b2 b1 b8 b7 b6 b5 b4
 
 mov r7, 30    // r7 = 0 0 0 1 1 1 1 0
 and r1, r7    // r1 = 0 0 0 b8 b7 b6 b5 0
@@ -39,7 +39,7 @@ add r6, r1    // r6 =  b11 b10 b9 b8 b7 b6 b5 0
 
 // calculate p8
 ld r1, r0     // load mem[1] again
-rsl r1, 6
+rsl r1, 6   
 mov r7, 1
 and r1, r7
 add r3, r1    // r3 = 0 0 0 0 0 0 0 b11

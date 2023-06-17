@@ -64,11 +64,12 @@ def translate(assembly_file, machine_file):
     if ':' in words[0]:
       jump = line.replace(":", "").split()
       branches[jump[0]] = total_lines
-
-      for i in range(0,BUFFER):
-        output.write(instructions['mov'] + registers['r4'] + lookup_table['0'] + "\n")
-        total_lines += 1
       continue
+      # JUMP PAD
+      # for i in range(0,BUFFER):
+      #   output.write(instructions['mov'] + registers['r4'] + lookup_table['0'] + "\n")
+      #   total_lines += 1
+      # continue
 
     # if words[0] == "hello":
     #   output.write("hello + \n")
@@ -80,6 +81,7 @@ def translate(assembly_file, machine_file):
     # if words[0] == 'blqz' and (words[2] not in branches):
     #   branches[words[2]] = total_lines 
       if words[0] == 'blqz':
+        output.write('underneath is all blqz at line ' + str(total_lines) + "\n")
         branch = True
       opcode = instructions[words[0]]
     else:
@@ -91,10 +93,12 @@ def translate(assembly_file, machine_file):
     else:
       raise ValueError(f"Invalid register: {words[1]} in line {line}")
     
-    # Check if operand register is valid
+
+
+
 
     if branch:   # if it is a branch
-      num = total_lines - branches[words[2]]
+      num = branches[words[2]]
       print(str(num) + "\n")
       
     if words[2] in registers:
