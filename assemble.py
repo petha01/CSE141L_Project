@@ -28,16 +28,19 @@ lookup_table = {
   '100': '000',
   '10': '001',
   '5': '010',
-  '1': '011',
-  '0': '100',
-  '-1': '101',
-  '-30': '110',
-  '-5': '111',
+  '2': '011',
+  '1': '100',
+  '0': '101',
+  '-1': '110',
+  '-30': '111',
 }
 
-branches = {}
+branches = {
+  'zerotwo': 440,
+  'zero': 490,
+}
 
-BUFFER = 50
+BUFFER = 10
 
 def translate(assembly_file, machine_file):
 
@@ -63,7 +66,13 @@ def translate(assembly_file, machine_file):
 
     if ':' in words[0]:
       jump = line.replace(":", "").split()
-      branches[jump[0]] = total_lines
+      if jump[0] not in branches:
+        branches[jump[0]] = total_lines
+      else:
+        for i in range(0,BUFFER):
+          output.write(instructions['mov'] + registers['r4'] + lookup_table['0'] + "\n")
+          total_lines += 1
+        
       continue
       # JUMP PAD
       # for i in range(0,BUFFER):
@@ -108,7 +117,7 @@ def translate(assembly_file, machine_file):
       try:
         if not branch:
           num = int(words[2])
-        keys_except_last_four = list(lookup_table.keys())[:-4]
+        keys_except_last_four = list(lookup_table.keys())[:-3]
         output.write(instructions['mov'] + registers['r4'] + lookup_table['0'] + "\n")
         total_lines += 1
 
@@ -137,4 +146,4 @@ def translate(assembly_file, machine_file):
   # Close the file
   input.close()
   output.close()
-translate('test_files/program1.txt', 'test_files/program1_out.txt')
+translate('test_files/program2_revised.txt', 'test_files/program2_revised_out.txt')

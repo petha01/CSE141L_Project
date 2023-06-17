@@ -10,15 +10,16 @@ mov r7, 0       // register for MSW
 mov r6, 0       // register for LSW 
 
 loop:
-
+mov r3, 1
 // compare p8
 add r3, r0
 ld r1, r3       // r1 =  b11 b10  b9  b8  b7  b6  b5  p8
 ld r2, r3      
 
 rsl r2, 4  
-and r2, 15      // r2 = 0 0 0 0 b11 b10  b9  b8 
-and r1, 15      // r1 = 0 0 0 0 b7  b6  b5  p8
+mov r7, 15
+and r2, r7      // r2 = 0 0 0 0 b11 b10  b9  b8 
+and r1, r7      // r1 = 0 0 0 0 b7  b6  b5  p8
 xor r2, r1      // r2 = xor(b11,7  b10,6  b9,5  b8,p8) 
 
 mov r1, 0
@@ -41,8 +42,6 @@ rsl r2, 3
 and r6, r2
 
 // compare p4
-mov r3, 1
-add r3, r0
 ld r1, r3       // r1 = b11 b10  b9  b8  b7  b6  b5  p8
 ld r2, r0       // r2 = b4  b3  b2  p4  b1  p2  p1  p0 
 
@@ -66,15 +65,14 @@ and r1, r7      // r1 = 0 0 0 0 0 0 0 xor(b11,9,4,2)
 and r2, r7      // r2 = 0 0 0 0 0 0 0 xor(b10,8,6,p4)
 xor r2, r1     // r2 = xor(b11:8, b4, b3, b2, p4)
 
-mov r6, 4      // 0 0 0 0 0 1 0 0
 rsl r2, 2
-and r6, r2     // r6 = 0 0 0 0 p8? p4? 0 0 match???
+and r2, 4     // r6 = 0 0 0 0 p8? p4? 0 0 match???
+add r6, r2
 
 // compare p2
-mov r3, 1
-add r3, r0
 ld r1, r3       // r1 = b11 b10  b9  b8  b7  b6  b5  p8
 ld r2, r0       // r2 = b4  b3  b2  p4  b1  p2  p1  p0 
+
 
 and r1, 204     // r1 = b11 b10  0  0  b7  b6  0  0
 and r2, 204     // r2 = b4  b3  0  0  b1  p2  0  0 
@@ -91,19 +89,16 @@ xor r2, r1     // r2 = xor(b11,7,4,1  b10,3,6,p2)
 mov r1, 0
 add r1, r2      
 rsl r1, 7
-mov r3, 1
-and r1, r3      // r1 = 0 0 0 0 0 0 0 xor(b11,9,4,2)
-and r2, r3      // r2 = 0 0 0 0 0 0 0 xor(b10,8,6,p4)
+mov r7, 1
+and r1, r7      // r1 = 0 0 0 0 0 0 0 xor(b11,9,4,2)
+and r2, r7      // r2 = 0 0 0 0 0 0 0 xor(b10,8,6,p4)
 xor r2, r1     // r2 = xor(b11, b10, b7, b6, b4, b3, b1, p2)
 
-mov r6, 2      // 0 0 0 0 0 0 1 0
-mov r1, 1
-rsl r2, r1
-and r6, r2     // r6 = 0 0 0 0 p8? p4? p2? 0 match???
+rsl r2, r7     // 0 0 0 0 0 0 1 0
+and r2, 2
+add r6, r2     // r6 = 0 0 0 0 p8? p4? p2? 0 match???
 
 // compare p1
-mov r3, 1
-add r3, r0
 ld r1, r3       // r1 = b11 b10  b9  b8  b7  b6  b5  p8
 ld r2, r0       // r2 = b4  b3  b2  p4  b1  p2  p1  p0 
 
@@ -122,17 +117,14 @@ xor r2, r1     // r2 = 0 0 0 0 0  xor(b11,7,4,1)  0  xor(b9,2,5,p2)
 mov r1, 0
 add r1, r2      
 rsl r1, 6
-mov r3, 1
-and r1, r3      // r1 = 0 0 0 0 0 0 0 xor(b11,7,4,1)
-and r2, r3      // r2 = 0 0 0 0 0 0 0 xor(b9,2,5,p2)
+and r1, r7      // r1 = 0 0 0 0 0 0 0 xor(b11,7,4,1)
+and r2, r7      // r2 = 0 0 0 0 0 0 0 xor(b9,2,5,p2)
 xor r2, r1     // r2 = xor(b11, b9, b7, b5, b4, b2, b1, p1)
 
-mov r6, 1      // 0 0 0 0 0 0 0 1
-and r6, r2     // r6 = 0 0 0 0 p8? p4? p2? p1? match???
+and r2, r7      // 0 0 0 0 0 0 0 1
+add r6, r2     // r6 = 0 0 0 0 p8? p4? p2? p1?     match???
 
 // calculate p0
-mov r3, 1
-add r3, r0
 ld r1, r3       // r1 = b11 b10  b9  b8  b7  b6  b5  p8
 ld r2, r0       // r2 = b4  b3  b2  p4  b1  p2  p1  p0 
 xor r2, r1      // r2 = b11,4 10,3 9,2 8,p4 7,1 6,p2 5,p1 p8,p0
@@ -154,39 +146,78 @@ xor r2, r1     // r2 = 0 0 0 0 0 0 xor(b11,7,4,1,b9,2,5,p2)  xor(10,3,6,p2,8,p4,
 mov r1, 0
 add r1, r2      
 rsl r1, 7
-mov r3, 1
-and r1, r3
-and r2, r3   
+and r1, r7
+and r2, r7   
 xor r2, r1     // xor(b11:1, p8, p4, p2, p1, p0)
 
 blqz r2 zerotwo
-// this would be with a one parity/error bit:
 
-// if r6 == 8,4,2,1,0
-// there is a parity error, so do nothing
+// r6 = number
+// if r6 < 8,
+// you want to left shift 1 by NUMBER and
+// XOR it with em[30] which causes it to flip
+// if r6 >= 8 
+// you want to left shift 1 by NUMBER - 8 and
+// XOR it with mem[31] which causes it to flip
 
-// if not, find the error
-// r6 = num 
-// B[num]
+
+ld r1, r0            // mem[30] =  r1 = b4  b3  b2  p4  b1  p2  p1  p0
+add r0, 1
+ld r3, r0            // mem[31] =  r3 = b11 b10  b9  b8  b7  b6  b5  p8 
+
+rsl r7, r6           // shift 1 to the right index
+
+xor r1, r7           // flip in mem[30]
+xor r3, r7           // flip in mem[31]
+
+mov r7, 0 
+add r7, r6
+and r7, 8             // get the 8th bit: 0 0 0 0 X 0 0 0 
+rsl r7, 5
+rsl r7, r6            // put 8th bit in position
+xor r1, r7            
+xor r3, r7            // xor(val) for both mem[30] and mem[31]
+
+mov r7, 1
+rsl r7, r6           // shift 1 to the right index
+xor r3, r7           // flip in mem[31] ONLY
+
+st r0, r3            // STORE mem[0] and mem[1] back to the original w/ FLIPPED
+mov r7, -1                // go back to LSW
+add r0, r7
+st r0, r1
+
+mov r7, 0           // add the 1
+mov r3, 1           // add 0 1 0 0 0 0 b11:9
+rsl r3, 6
+add r7, r1
+
+// forcefully JUMP
+mov r3, 0
+blqz r3, zero
+
 
 zerotwo:
-blqz r6 zero
-mov r3, -30
-add r3 
-ld r1, 
+mov r7, 0
+blqz r6 zero        // if r6 = 0, do nothing,     0 0 0 0 0 b11 b10 b9
+mov r3, 1           // else, there are 2 errors,  1 0 0 0 0 b11 b10 b9
+rsl r3, 7
+add r7, r3
 
 
 
 zero:
-mov r7, 0
 mov r3, 1
+mov r6, 0
+
+
 // calculating
 add r3, r0
 ld r1, r3      // r1 = mem[r3]
-mov r2, 224
-and r1, r2     // 224 = binary 11100000. Keep the b11 to b9
-mov r2, 3
+mov r3, 3
 rsl r1, r2     // position the 3 bits
+mov r2, 7
+and r1, r2     // 7 = binary 00000111. X X 0 0 0 b11 b10 b9
 add r7, r1
 
 ld r1, r3       // r1 = mem[r3]
