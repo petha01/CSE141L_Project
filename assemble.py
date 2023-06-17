@@ -36,8 +36,8 @@ lookup_table = {
 }
 
 branches = {
-  'zerotwo': 254,   # 440
-  'zero': 255,      # 490
+  'zerotwo': 254,   # 435
+  'zero': 255,      # 470
 }
 
 BUFFER = 10
@@ -80,10 +80,6 @@ def translate(assembly_file, machine_file):
       #   total_lines += 1
       # continue
 
-    # if words[0] == "hello":
-    #   output.write("hello + \n")
-    #   continue
-  
     # Check if instruction is valid
     if words[0] in instructions:
       

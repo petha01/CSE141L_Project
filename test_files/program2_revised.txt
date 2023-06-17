@@ -205,7 +205,6 @@ rsl r3, 7
 add r7, r3
 
 
-
 zero:
 mov r3, 1
 mov r6, 0
