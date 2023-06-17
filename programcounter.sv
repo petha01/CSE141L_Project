@@ -12,7 +12,15 @@ logic[1:0] counter = 2'b11;
                 pc <= 0;
             end  else if (jumpFlag) begin
                 // pc <= pc - target;
-                pc <= target;
+                if (target == 8'b11111111) begin
+                    pc <= 9'b111010110; // 470
+                end
+                else if (target == 8'b11111111) begin
+                    pc <= 9'b110110011; // 435
+                end
+                else begin
+                    pc <= target;
+                end
             end else begin
                 pc <= pc + 'b1;
             end
