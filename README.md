@@ -48,3 +48,6 @@ We faced major challenges with the timing of some of our singals in our processo
 
 ## Video Demonstation
 link- https://youtu.be/eUA_uP8cYms
+
+## Screenshots for outpu
+Screenshots for output can be found in the 'Output screenshots' directory.
