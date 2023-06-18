@@ -38,6 +38,7 @@ lookup_table = {
 branches = {
   'zerotwo': 254,   # 435
   'zero': 255,      # 470
+  'adder': 75,
 }
 
 BUFFER = 10
