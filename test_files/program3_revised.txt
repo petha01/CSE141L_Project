@@ -1,54 +1,42 @@
-mov r0, -1              // byte_counter
-mov r1, 32              // bit_counter
-mov r2, 0               // byte_occurrences
-mov r3, 0               // total_occurrences
-mov r4, 0               // byte_occurrences 
-
-Loop:
-mov r7, 31
-xor r7, r0
-blqz r7, Store
-
+mov r0, 0               // index
 mov r2, 0
-mov r7, 1
-add r0, r7
-ld r1, r0                // r1 = mem[0]
+mov r3, 31               // byte_occurrences
+mov r6, 0               // total_occurrences
+mov r7, 32               // byte_occurrences 
 
 BitLoop:
-mov r1, 32              // search_pattern
-ld r5, r1     
+
+mov r7, 32               // byte_occurrences 
+ld r2, r7               // 5 bit pattern
 
 mov r7, 5
-add r2, r7
-rsl r5, 
-mov r7, 31
-and r5, r7       
 
-mov r7, 1
-add r2, r7
+innerfour:
+mov r3, 31
+ld r1, r0               // value on mem[0:31]
+rsl r1, r7
+and r1, r3             // r3 = 0 0 0 1 1 1 1 1
+xor r1, r2             // xor(X X X X X 0 0 0, and pattern)
+blqz r1, adder
 
-xor r1, r5               // is it a match??????
-blqz r1, Match
-
-mov r7, -3
-and r7, r2
-blqz r7, Loop
-
-mov r7, 0
-blqz r7, BitLoop         // B Loop
-
-Match:
-mov r7, 1
+adder:
+add r6, 1              // add to bit counter for mem[33]
+add r7, 1              //  5 -> 6 -> 7 -> 8   
+mov r1, -30
+mov r3, 0 
 add r3, r7
+add r1, 22             // r1 = -8
+add r1, r7             // jump if r1 = 9 
+blqz r1, innerfour
 
-mov r7, 0                
-blqz r7, Store           // B Loop
+add r0, 1             // check if we get to index 31
+mov r1, -30
+mov r7, -1
+add r1, r7            // r1 = - 31
 
-// store
-mov r7, 33
-mov r1, 1
-st r2, r7
-add r7, r1
-st r3, r7
-add r7, r1
-st r4, r7
+add r1, r0 
+blqz r1, BitLoop
+
+mov r1, 33
+st r1, r6
+
