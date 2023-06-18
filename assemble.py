@@ -138,4 +138,4 @@ def translate(assembly_file, machine_file):
   # Close the file
   input.close()
   output.close()
-translate('test_files/program2_revised.txt', 'test_files/program2_revised_out.txt')
+translate('test_files/program2_3.txt', 'test_files/program2_out.txt')

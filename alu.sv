@@ -31,8 +31,8 @@ module alu(
             ST  : out = input1;
             BLQZ: begin
                 out = input2;
-                temp = input1 - 2;
-                if (temp < -8'b00000001) begin
+                temp = input1 - 1'b1;
+                if (temp[7] == 1) begin
                     jumpFlag = 1;
                 end
             end

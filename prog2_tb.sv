@@ -50,7 +50,7 @@ initial begin
 // flip second bit about 25% of the time (flip2<16)		// 00_0010     1010
 // if flip2[5:4]!=0, flip2 will have no effect, and we'll have a one-bit flip
     flip2[i] = $random;	   // 'b0;
-	d2_bad[i] = d2_bad1[i] ^ (1'b1<<flip2[i]);
+	  d2_bad[i] = d2_bad1[i] ^ (1'b1<<flip2[i]);
 // if flip2[5:4]==0 && flip2[3:0]==flip, then flip2 undoes flip, so no error
 	DUT.DM.core[31+2*i] = {d2_bad[i][15:8]};
     DUT.DM.core[30+2*i] = {d2_bad[i][ 7:0]};
