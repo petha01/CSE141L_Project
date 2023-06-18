@@ -190,7 +190,7 @@ st r0, r1
 mov r7, 0           // add the 1
 mov r3, 1           // add 0 1 0 0 0 0 b11:9
 rsl r3, 6
-add r7, r1
+add r7, r3
 
 // forcefully JUMP
 mov r3, 0
@@ -213,8 +213,7 @@ mov r6, 0
 // calculating
 add r3, r0
 ld r1, r3      // r1 = mem[r3]
-mov r3, 3
-rsl r1, r2     // position the 3 bits
+rsl r1, 3     // position the 3 bits
 mov r2, 7
 and r1, r2     // 7 = binary 00000111. X X 0 0 0 b11 b10 b9
 add r7, r1
@@ -258,7 +257,6 @@ add r2, r0     // MSW = r0 // 60 - 30 - 30 + 1 = 1 then end
 
 mov r3, -30
 add r2, r3
-mov r3, -30
 add r2, r3
 
 blqz r2, loop
